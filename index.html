@@ -1,0 +1,205 @@
+<!-- Code crafted by Chirrenthen -->
+<!-- Check out my Portfolio https://chirrenthen.netlify.app -->
+<!-- Follow me on Github https://github.com/Chirrenthen -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <title>WeatherSense | Chirrenthen</title>
+  
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="shortcut-icon" href="Weather-Application.png" type="image/png">
+
+  <!-- Add to head section -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#4a90e2">
+  
+  <!-- iOS specific meta tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WeatherSense">
+  <link rel="apple-touch-icon" href="Weather-Application.png">
+
+  <!-- Windows specific meta tags -->
+  <meta name="msapplication-TileImage" content="Weather-Application.png">
+  <meta name="msapplication-TileColor" content="#4a90e2">
+</head>
+
+<body>
+  <!-- Loader Overlay -->
+  <div id="loaderOverlay" class="overlay hidden">
+    <div class="loader"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="nav">
+    <div class="nav-container">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud h-8 w-8 text-blue-600">
+          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+        </svg>
+        <span href="#home" class="text-xl font-bold text-gray-800"> WeatherSense</span>
+      </div>
+      <nav>
+        <a href="#home" class="active">Home</a>
+        <a href="#weather">Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Weather Forecasts Made Simple</h1>
+        <p>
+          Get accurate, real-time weather data for any location around the globe.
+          Perfect for planning your day or integrating into your applications.
+        </p>
+        <div class="hero-buttons">
+          <button data-target="#weather" class="btn primary">Try the Dashboard</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEATHER DASHBOARD -->
+  <main id="weather" class="dashboard-container">
+    <!-- Main Container Box -->
+    <div class="main-weather-box">
+      <!-- Search Section -->
+      <div class="search-section">
+        <div class="search-container">
+          <input id="cityInput" type="text" placeholder="Enter city or country"/>
+          <button id="searchBtn"><i class="bx bx-search-alt-2"></i> Search</button>
+          <button id="locationBtn"><i class="bx bx-current-location"></i> My Location</button>
+        </div>
+      </div>
+
+      <!-- Initial State -->
+      <div id="initialState" class="initial-state">
+        <i class='bx bx-map'></i>
+        <h3>No weather data to display</h3>
+        <p>Search for a location or use your current location to get weather information.</p>
+      </div>
+
+      <!-- Weather Data (hidden initially) -->
+      <div id="weatherData" class="weather-data hidden">
+        <!-- Primary Boxes -->
+        <div class="primary-boxes">
+          <!-- Left Box -->
+          <div class="left-box">
+            <div class="location-info">
+              <h2 id="locName">City, Country</h2>
+              <p id="dateTime">Day, Month Date, Time</p>
+            </div>
+            <div class="weather-main">
+              <img id="weatherIcon" src="" alt="Weather Icon"/>
+              <div class="temp-info">
+                <h3 id="temp">--°C</h3>
+                <p id="desc">--</p>
+              </div>
+            </div>
+            <div class="weather-stats">
+              <div class="stat-box">
+                <i class="bx bx-thermometer"></i>
+                <span id="feels">--°C</span>
+                <small>Feels Like</small>
+              </div>
+              <div class="stat-box">
+                <i class="bx bx-droplet"></i>
+                <span id="hum">--%</span>
+                <small>Humidity</small>
+              </div>
+              <div class="stat-box">
+                <i class="bx bx-wind"></i>
+                <span id="wind">-- km/h</span>
+                <small>Wind</small>
+              </div>
+            </div>
+            <div class="sun-times">
+              <div class="stat-box">
+                <i class="bx bx-sun"></i>
+                <span id="sunrise">--:--</span>
+                <small>Sunrise</small>
+              </div>
+              <div class="stat-box">
+                <i class="bx bx-moon"></i>
+                <span id="sunset">--:--</span>
+                <small>Sunset</small>
+              </div>
+            </div>
+          </div>
+          <!-- Right Box -->
+          <div class="right-box">
+            <div id="map"></div>
+            <div class="coordinates">
+              <span id="lat">Latitude: --</span>
+              <span id="lon">Longitude: --</span>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Stats -->
+        <div class="bottom-stats">
+          <div class="stat-box">
+            <i class="bx bx-gauge"></i>
+            <span id="press">-- hPa</span>
+            <small>Pressure</small>
+          </div>
+          <div class="stat-box">
+            <i class="bx bx-low-vision"></i>
+            <span id="visi">-- km</span>
+            <small>Visibility</small>
+          </div>
+          <div class="stat-box">
+            <i class="bx bx-cloud"></i>
+            <span id="cloud">--%</span>
+            <small>Cloudiness</small>
+          </div>
+          <div class="stat-box">
+            <i class="bx bx-compass"></i>
+            <span id="dir">--</span>
+            <small>Wind Direction</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">WeatherSense</div>
+      <p>Built for dreamers who track clouds and chase storms ☁️⚡</p>
+      <div class="footer-links">
+        <a href="https://github.com/chirrenthen/WeatherSense">Github</a>
+        <a href="mailto:chirrenthen13@gmail.com">Contact</a>
+      </div>
+      <small>Code Crafted with 🩵 by Chirrenthen</small>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+</body>
+</html>

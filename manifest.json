@@ -1,0 +1,22 @@
+{
+  "name": "WeatherSense | Chirrenthen",
+  "short_name": "WeatherSense",
+  "description": "Weather forecasts made simple - get accurate, real-time weather data",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#4a90e2",
+  "background_color": "#f5f7fa",
+  "icons": [
+    {
+      "src": "/Weather-Application.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "related_applications": [
+    {
+      "platform": "web"
+    }
+  ]
+}
